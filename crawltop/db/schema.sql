@@ -1,0 +1,31 @@
+PRAGMA journal_mode=WAL;
+PRAGMA foreign_keys=ON;
+
+CREATE TABLE IF NOT EXISTS runs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  seed TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'queued',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  run_id INTEGER NOT NULL,
+  url TEXT NOT NULL,
+  status_code INTEGER,
+  title TEXT,
+  content_text TEXT,
+  fetched_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (run_id) REFERENCES runs(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS links (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  page_id INTEGER NOT NULL,
+  href TEXT NOT NULL,
+  FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_runs_created_at ON runs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_pages_run_id ON pages(run_id);
+CREATE INDEX IF NOT EXISTS idx_pages_url ON pages(url);
