@@ -8,23 +8,28 @@
 - Async repo helpers: enqueue/dequeue/counter/event log.
 - Domain-scoped crawl and same-domain link filtering.
 
-## v0.3
+## v0.3 ✓
 
-- Search provider (Exa, Brave).
-- Full-text search across saved pages in the TUI.
-- Page detail view: full extracted text, links, depth.
-- robots.txt parser + per-domain crawl policy.
-- Export run to Markdown / JSON.
+- Search provider layer (Exa, Brave) with auto-registry.
+- Full-text search modal across saved pages in the TUI (/).
+- Page detail modal: full extracted text, scrollable, Markdown-rendered.
+- robots.txt parser + per-domain crawl policy + TOS blocklist.
+- Export run to Markdown / JSON (RunExporter).
+- docs/tos_notes.md per-domain policy log.
+- Tests: test_policy.py, test_export.py.
 
 ## v0.4
 
-- Optional Qdrant local mode for semantic search.
+- Optional Qdrant local mode for semantic/vector search.
 - Configurable agent skills (cleaner, curator, QA, linker).
-- Agent results stored as run annotations.
+- Agent results stored as run annotations in SQLite.
 - CrewAI / LangChain adapter plugged into pipeline.
+- Image capture and OCR for pages with key visual content.
 
 ## v0.5
 
-- Search-term seed via Exa/Brave → URL fan-out.
-- Table and image extraction.
-- Multi-run comparison and entity linking.
+- Multi-site crawl policies with per-domain config.
+- Table extraction from HTML into structured SQLite rows.
+- Entity linking across runs (players, orgs, topics).
+- Export to CSV / Parquet for downstream dbt/PostgreSQL ingestion.
+- Plugin SDK: open skill and provider interface for contributors.
