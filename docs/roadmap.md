@@ -18,13 +18,16 @@
 - docs/tos_notes.md per-domain policy log.
 - Tests: test_policy.py, test_export.py.
 
-## v0.4
+## v0.4 ✓
 
-- Optional Qdrant local mode for semantic/vector search.
-- Configurable agent skills (cleaner, curator, QA, linker).
-- Agent results stored as run annotations in SQLite.
-- CrewAI / LangChain adapter plugged into pipeline.
-- Image capture and OCR for pages with key visual content.
+- Qdrant local mode vector store (on-disk persistence, cosine similarity).
+- Text chunker + async Embedder (OpenAI-compatible + sentence-transformers local).
+- Open Skill interface + SkillRegistry (community-extensible plugin pattern).
+- Built-in skills: CleanerSkill, CuratorSkill, LinkerSkill, QASkill.
+- AgentRunner: configurable sequential skill pipeline with graceful LLM fallback.
+- annotate_page / annotate_run pipeline: agents + SQLite persist + Qdrant embed.
+- docs/agents.md: full skill documentation + custom skill guide.
+- Tests: test_agents.py (cleaner, registry, runner, chunker).
 
 ## v0.5
 
@@ -33,3 +36,5 @@
 - Entity linking across runs (players, orgs, topics).
 - Export to CSV / Parquet for downstream dbt/PostgreSQL ingestion.
 - Plugin SDK: open skill and provider interface for contributors.
+- CrewAI / LangChain adapter as optional orchestration layer.
+- Image capture and OCR for pages with key visual content.
