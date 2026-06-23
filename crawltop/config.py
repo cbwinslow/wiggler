@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -10,12 +11,14 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "crawltop"
+    app_name: str = "wiggler"
     data_dir: Path = Path("./data")
-    db_path: Path = Path("./data/crawltop.db")
+    db_path: Path = Path("./data/wiggler.db")
     log_level: str = "INFO"
     max_concurrency: int = Field(default=10, ge=1, le=100)
-    user_agent: str = "crawltop/0.1 (+https://example.com/bot)"
+    user_agent: str = "wiggler/0.2 (+https://github.com/cbwinslow/wiggler)"
+    crawl_max_depth: int = Field(default=1, ge=0, le=5)
+    crawl_max_pages: int = Field(default=50, ge=1, le=5000)
     qdrant_mode: str = "disabled"
     qdrant_path: Path = Path("./data/qdrant")
     openai_api_key: str | None = None
