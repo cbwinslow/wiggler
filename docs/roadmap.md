@@ -1,6 +1,6 @@
 # Roadmap
 
-## v0.2 ✓
+## v0.2 ✔
 
 - Recursive crawl queue with domain/depth/page limits.
 - WAL + FTS5 SQLite schema.
@@ -8,7 +8,7 @@
 - Async repo helpers: enqueue/dequeue/counter/event log.
 - Domain-scoped crawl and same-domain link filtering.
 
-## v0.3 ✓
+## v0.3 ✔
 
 - Search provider layer (Exa, Brave) with auto-registry.
 - Full-text search modal across saved pages in the TUI (/).
@@ -18,7 +18,7 @@
 - docs/tos_notes.md per-domain policy log.
 - Tests: test_policy.py, test_export.py.
 
-## v0.4 ✓
+## v0.4 ✔
 
 - Qdrant local mode vector store (on-disk persistence, cosine similarity).
 - Text chunker + async Embedder (OpenAI-compatible + sentence-transformers local).
@@ -26,15 +26,24 @@
 - Built-in skills: CleanerSkill, CuratorSkill, LinkerSkill, QASkill.
 - AgentRunner: configurable sequential skill pipeline with graceful LLM fallback.
 - annotate_page / annotate_run pipeline: agents + SQLite persist + Qdrant embed.
-- docs/agents.md: full skill documentation + custom skill guide.
+- docs/agents.md: full skill documentation and custom skill guide.
 - Tests: test_agents.py (cleaner, registry, runner, chunker).
 
-## v0.5
+## v0.5 ✔
 
-- Multi-site crawl policies with per-domain config.
-- Table extraction from HTML into structured SQLite rows.
-- Entity linking across runs (players, orgs, topics).
-- Export to CSV / Parquet for downstream dbt/PostgreSQL ingestion.
-- Plugin SDK: open skill and provider interface for contributors.
-- CrewAI / LangChain adapter as optional orchestration layer.
-- Image capture and OCR for pages with key visual content.
+- `crawltop/core/policy_config.py`: per-domain crawl policy config (YAML/JSON, rate limits, depth, TOS flags).
+- `crawltop/core/robots.py`: robots.txt fetch + parse + TTL cache.
+- `crawltop/core/table_extractor.py`: HTML `<table>` extraction via selectolax → normalized list-of-dict records with caption, headers, rows.
+- `crawltop/core/entity_linker.py`: MLB entity resolution (30-team seed index + DB player lookup) using trigram Dice similarity; zero external calls.
+- `crawltop/db/schema.py`: Python migration manager (v1 → v2); adds `players`, `extracted_tables`, `entity_links` tables + FTS5 virtual table + sync triggers.
+- `crawltop/pipeline/exporter.py`: advanced multi-format export (JSON, JSONL, CSV, Markdown, Parquet) with optional embedded tables + entity links; CLI entrypoint.
+- Tests: test_table_extractor.py, test_entity_linker.py, test_schema.py, test_exporter.py.
+
+## v0.6 (planned)
+
+- Scheduled / recurring crawl jobs (cron-style via APScheduler).
+- Multi-site crawl orchestration: parallel domain workers with shared queue.
+- TUI: live per-domain bandwidth + entity-link heat-map panel.
+- MLB standings / box-score pipeline: ingest + normalise + deduplicate via entity linker.
+- Parquet + DuckDB analytics integration (query extracted tables in-app).
+- REST micro-API (FastAPI) for headless operation and CI integration.
